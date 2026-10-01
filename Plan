@@ -1,0 +1,47 @@
+Project Cowboy Plan Document
+Python Programming II — Daffa Rabin and Pedro Assuncao
+Our project answers how home values and home-value-to-income ratios evolved across
+Wyoming counties from 2014 to 2023, with emphasis on counties affected by amenity-driven
+gentrification.
+The working database comprises a balanced panel of 230 county-year observations across
+all 23 Wyoming counties over a 10-year period (2014–2023). Zillow’s County ZHVI supplies
+monthly home values, which are be aggregated to annual county averages to integrate with
+socioeconomic data. The U.S. Census Bureau’s ACS 5-year estimates provide county-level median
+household income, median home values, median rents, seasonal vacancy counts, total housing
+units, and population. FHFA’s annual county all-transactions House Price Index (HPI) and the
+USDA ERS Natural Amenities Scale serve as price-trend and environmental-attractiveness
+benchmarks.
+With the database assembled, the analytical workflow consists of three steps:
+First, exploratory and spatial data analysis will differentiate state-wide baseline housing
+appreciation driven by macro demand and supply constraints also known as decoupling from
+amenity-driven gentrification created by external wealth inflows and recreational appeal.
+Teton County (Jackson Hole) represents the most popular example, home to national parks,
+ski resorts, and high-net-worth real estate acquisition. Famous examples of property owners in
+Teton County include Bill Gates, Dick Cheney, Harrison Ford, and Kanye West.
+High-amenity counties will be categorized using the top tier of the USDA Natural
+Amenities Scale and seasonal vacancy rates. Using geopandas and libpysal, we will compute
+Global and Local Moran’s I (LISA cluster maps)1
+to evaluate spatial spillover effects, testing
+whether real estate inflation in Teton County significantly spills over into adjacent rural counties
+(e.g., Lincoln, Sublette, and Fremont).
+Second, descriptive analysis will track housing affordability decoupling over time. The
+primary dependent variable is the price-to-income ratio, reflecting the growing wedge between
+speculative real estate values and local productive earnings. We will compute year-over-year
+growth trajectories for home values versus local incomes across counties. Seasonal vacancy rates
+(seasonal vacant units divided by total housing units) will serve as our primary proxy for secondary
+home and short-term recreational demand.
+Third, a two-way fixed effects (TWFE) regression model2 will estimate the impact of
+amenity-driven demand and the post-COVID 2020 liquidity shock on cost decoupling:
+Decouplingit = β1(Seasonal Vacancyit) + β2(High Amenityi × Post-2020t) + αi + γt + εit
+(Decouplingit) will be defined the price-to-income ratio or the housing-income growth gap
+for a given county in a given year
+(High Amenityi × Post-2020t) captures the post-2020 shock on amenity-rich counties.
+(αi ) and (γt) control for time-invariant County Fixed Effects and Yearly Fixed Effects
+1
+LISA cluster maps are important tools to identify spatial patterns of housing distribution through spatial
+autocorrelation. See: "Sairi, N A Mohd et al, "Identifying the spatial patterns of housing distribution in Johor Bahru
+through spatial autocorrelation IOP Conf. Ser.: Earth Environ. Sci., July 2020
+2
+The two-way fixed effects model has been employed in recent research on rural housing markets to identify
+amenity migration and its effect on local economies. See: Fabing, Luc R., "The Zoom Town Effect of Remote Work on
+Rural Housing Markets." Senior thesis, Claremont McKenna College, 2026
